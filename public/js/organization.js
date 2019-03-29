@@ -1,0 +1,10 @@
+var organization = [];
+organization.push("日本陸上競技連盟");
+organization.push("日本水泳連盟");
+organization.push("日本サッカー協会");
+organization.push("全日本スキー連盟");
+organization.push("日本テニス協会");
+organization.push("日本ホッケー協会");
+organization.push("日本バレーボール協会");
+organization.push("日本バスケットボール協会");
+organization.push("日本スケート連盟");
