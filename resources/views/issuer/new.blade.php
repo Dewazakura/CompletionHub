@@ -10,24 +10,42 @@
 		<article>
 			<h2>機関登録</h2>
 		</article>
-		<form action="issuer.html" method="post">		
+	@if ($errors->any())
+	<div class="errors">
+	<ul>
+		@foreach ($errors->all() as $error)
+		<li>{{ $error }}</li>
+		@endforeach
+	</ul>
+	</div>
+	@endif
+	@isset ($status)
+	<div class="complete">
+		<p>登録完了しました。</p>
+	</div>
+	@endif
+		<form action="/issuer/new" method="post">
+		{{ csrf_field() }}
 			<p><strong class="color1">■※は入力必須です。</strong><br>
 			<table class="ta1">
 				<tr>
 					<th>団体名※</th>
-					<td><input type="text" name="group_name" size="30" class="ws"></td>
+					<td><input type="text" name="issuer[name]" value="{{ old('issuer.name') }}" size="100" class="ws"></td>
 				</tr>
 				<tr>
 					<th>URL※</th>
-					<td><input type="text" name="url" size="30" class="ws"></td>
+					<td><input type="text" name="issuer[url]" size="50" class="ws"></td>
 				</tr>
 				<tr>
-					<th>EMAIL</th>
-					<td><input type="email" name="email" size="30" class="ws"></td>
+					<th>EMAIL※</th>
+					<td><input type="email" name="issuer[email]" size="255" class="ws"></td>
 				</tr>
 				<tr>
-					<th>公開鍵※</th>
-					<td><textarea id="public_key" name="pub_key" cols="30" rows="3" class="wl"></textarea></td>
+					<th>アドレス（公開鍵）※</th>
+					<td>
+						<input type="text" name="publicKey[pub_key]" class="ws">
+						備考<input type="text" name="publicKey[explain]" class="ss">
+					</td>
 				</tr>
 			</table>
 			<p class="c">

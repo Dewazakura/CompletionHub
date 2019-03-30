@@ -31,8 +31,7 @@
 				<input type="submit" value="検証する" class="btn">
 			</p>
 		</form>	
-		<p><a href="/">&lt;&lt; Topに戻る</a></p>
+		<p><a href="/organization/verifier">&lt;&lt; 前に戻る</a></p>
 	</div>
-	<!--/inner-->
 </div>
 @endsection

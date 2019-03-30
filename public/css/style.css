@@ -509,6 +509,7 @@ ul.disc {padding: 0em 25px 15px;list-style: disc;}
 .pr {font-size: 10px;}
 .wl {width: 96%;}
 .ws {width: 50%;}
+.ss {width: 30%;}
 .c {text-align: center;}
 .r {text-align: right;}
 .l {text-align: left;}
@@ -749,6 +750,21 @@ header #logo {
 img.fr,img.fl {float: none;margin: 0;width: 100%;}
 .fl-half{float:none;width:100%;margin-left:0;}
 
+}
+.errors {
+	width: 100%;
+    font-size: 14px;
+    color: #e95353;
+    border: 1px solid #e95353;
+	background-color: #f2dede;
+}
+.complete {
+    padding-left: 10px;
+    width: 100%;
+    font-size: 14px;
+    color: #2a88bd;
+    border: 1px solid #2a88bd;
+    background-color: #a6e1ec;
 }
 
 /*コピーライト

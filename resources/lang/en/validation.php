@@ -144,6 +144,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'issuer.name'  => 'Name',
+        'issuer.url'   => 'URL',
+        'issuer.email' => 'Email',
+        'publicKey.pub_key' => 'Adress'
+    ],
 
 ];
