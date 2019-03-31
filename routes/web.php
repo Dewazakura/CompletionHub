@@ -23,5 +23,7 @@ Route::get('/verification/{organization_id}', 'VerificationController@index')
 
 Route::get('/issuer/new', 'IssuerController@new');
 Route::post('/issuer/new', 'IssuerController@store');
-Route::get('/issuer/{organization_id}', 'IssuerController@issu')
+Route::get('/issuer/{organization_id}', 'IssuerController@index')
         ->where('organization_id', '[0-9]+');
+Route::post('/issuer/valid', 'IssuerController@validIssue');
+Route::post('/issuer/invalid', 'IssuerController@invalidIssue');

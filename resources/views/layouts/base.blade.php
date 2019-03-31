@@ -8,6 +8,7 @@
     <meta name="keywords" content="">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ secure_asset('css/style.css') }}">
+    <script type="text/javascript" src="{{ secure_asset('js/verification.js') }}"></script>
 </head>
 
 <body id="top">

@@ -5,17 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Issuer;
+use App\Models\Transaction;
 
 class IssuerController extends Controller
 {
+    protected $isuuer;
+
+    public function __construct()
+    {
+        $this->isuuer = new Issuer();
+    }
+
+    public function index($organization_id)
+    {
+        $isuuer = $this->isuuer->find($organization_id);
+
+        return view('issuer/index', compact('isuuer'));
+    }
+
     public function new()
     {
         return view('issuer/new');
-    }
-
-    public function issu($organization_id)
-    {
-        return view('issuer/issu');;
     }
 
     public function store(Request $request)
@@ -40,5 +50,46 @@ class IssuerController extends Controller
         DB::commit();
 
         return redirect('/organization/issuer')->with('status', true);;
+    }
+
+    public function validIssue(Request $request)
+    {
+        $this->validate($request, [
+            'certificate_file' => [
+                'required',
+                'file',
+            ],
+            'private_key' => 'required|string'
+        ]);
+
+        if ($request->file('certificate_file')->isValid()) {
+            $file = $request->file('certificate_file');
+            //dd(hash_file('sha256', $file));
+        }
+
+        return back()->withInput();
+    }
+
+    public function invalidIssue(Request $request)
+    {
+        $id = $request->input('_id');
+        if (empty($id)) {
+            return;
+        }
+
+        $request->validate([
+            'invalid_tx_id'  => 'required|string'
+        ]);
+
+        $params = [
+            'txid' => $request->input('invalid_tx_id'),
+            'valid' => Transaction::INVALID,
+            'certificate_hash' => 'xxxx'
+        ];
+
+        $issuer = $this->isuuer->find($id);
+        $issuer->transaction()->create($params);
+
+        return back()->withInput();
     }
 }
