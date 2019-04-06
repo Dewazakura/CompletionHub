@@ -10,7 +10,7 @@
 		<article>
 			<h2>証明書の発行</h2>
 		</article>
-		<form action="/issuer/valid" method="post" enctype="multipart/form-data">
+		<form id="issue_form" action="/issuer/valid" method="post" enctype="multipart/form-data">
 		{{ csrf_field() }}
 			<p><strong>■証明書を発行するには以下を入力してください。</strong><br>
 			<p>{{ $isuuer->name }}</P>
@@ -21,6 +21,11 @@
 				<li>{{ $error }}</li>
 				@endforeach
 			</ul>
+			</div>
+			@endif
+			@if (session('my_status'))
+			<div class="complete">
+			<p>{!! session('my_status') !!}</p>
 			</div>
 			@endif
 			<hr/>
@@ -35,10 +40,12 @@
 				</tr>
 			</table>
 			<p class="l">
-				<input type="submit" value="TxIDブロードキャスト" class="btn">
+				<input type="button" id="issue_submit" value="TxIDブロードキャスト" class="btn">
 			</p>
 			<hr/>
 			<input type="hidden" name="_id" value="{{ $isuuer->id }}">
+			<input type="hidden" id="result_txid" name="result_txid" value="">
+			<input type="hidden" id="result_file_hash" name="result_file_hash" value="">
 		</form>
 		<form action="/issuer/invalid" method="post">
 		{{ csrf_field() }}
@@ -53,6 +60,39 @@
 			</p>
 			<input type="hidden" name="_id" value="{{ $isuuer->id }}">
 		</form>
-		<p><a href="/organization/issuer">&lt;&lt; 前に戻る</a></p>
+		<p><a href="/">&lt;&lt; Topに戻る</a></p>
 	</div>
+
+<script>
+$(document).ready(function() {
+ 
+ $('#issue_submit').on('click', function(event) {
+	var privateKey = $('#private_key').val();
+	var formdata = new FormData($('#issue_form').get(0));
+	event.preventDefault();
+	$.ajax({
+		url        : "/issuer",
+		method     : "POST",
+		data       : formdata ,
+		cache      : false,
+		contentType: false,
+		processData: false,
+		dataType   :'html'
+	})
+	.done(function(data, textStatus, jqXHR){
+		if (textStatus === 'success') {
+			let txId = issue(privateKey, data);
+			$('#result_txid').val(txId);
+			$('#result_file_hash').val(data);
+			$('#issue_form').submit();
+		} else {
+			alert(data);
+		}
+	})
+	.fail(function(jqXHR, textStatus, errorThrown){
+		alert(errorThrown);
+    });
+ });
+});
+</script>
 @endsection

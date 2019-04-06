@@ -10,9 +10,25 @@
 		<article>
 			<h2>証明書の検証</h2>
 		</article>
-		<br/>
-		<form action="verification.html" method="post" enctype="multipart/form-data">		
-			<p><strong class="color1">■内容を検証するには以下を入力してください。</strong><br>
+		<form action="/verification/verify" method="post" enctype="multipart/form-data">
+		{{ csrf_field() }}
+			<input type="hidden" name="id" value="{{ $isuuer->id }}">
+			<p><strong class="color1">■内容を検証するには以下を入力してください。</strong>
+			<p>{{ $isuuer->name }}</P>
+			@if ($errors->any())
+			<div class="errors">
+			<ul>
+				@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+			</div><br>
+			@endif
+			@if (session('my_status'))
+			<div class="complete">
+			<p>一致しました！<br>正しい証明書です。</p>
+			</div><br>
+			@endif
 			<table class="ta1">
 				<tr>
 					<th>TxID</th>
@@ -20,18 +36,18 @@
 				</tr>
 				<tr>
 					<th>PDF</th>
-					<td><input type="file" id="pdf_file" name="pdf_file" size="30" class="ws"></td>
+					<td><input type="file" id="certificate_file" name="certificate_file" size="30" class="ws"></td>
 				</tr>
 				<tr>
-					<th>公開鍵</th>
-					<td><textarea id="public_key" name="public_key" cols="30" rows="3" class="wl"></textarea></td>
+					<th>アドレス</th>
+					<td><textarea id="address" name="address" cols="30" rows="3" class="wl"></textarea></td>
 				</tr>
 			</table>
 			<p class="c">
 				<input type="submit" value="検証する" class="btn">
 			</p>
-		</form>	
-		<p><a href="/organization/verifier">&lt;&lt; 前に戻る</a></p>
+		</form>
+		<p><a href="/">&lt;&lt; Topに戻る</a></p>
 	</div>
 </div>
 @endsection

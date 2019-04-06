@@ -44,33 +44,50 @@ class IssuerController extends Controller
             $issuer->publicKeys()->create($request->get('publicKey', []));
         } catch(\Exception $e) {
             DB::rollback();
-            //dd($e);
             return back()->withInput();
         }
         DB::commit();
 
-        return redirect('/organization/issuer')->with('status', true);;
+        return redirect('/organization/issuer')->with('status', true);
     }
 
+    // for Ajax
     public function validIssue(Request $request)
     {
-        $this->validate($request, [
-            'certificate_file' => [
-                'required',
-                'file',
-            ],
-            'private_key' => 'required|string'
-        ]);
+        $fileHash = hash_file('sha256', $request->file('certificate_file'));
+        print $fileHash;
 
-        if ($request->file('certificate_file')->isValid()) {
-            $file = $request->file('certificate_file');
-            //dd(hash_file('sha256', $file));
-        }
-
-        return back()->withInput();
+        return;
     }
 
-    public function invalidIssue(Request $request)
+    public function storeValidIssue(Request $request)
+    {
+        $id = $request->input('_id');
+        if (empty($id)) {
+            return;
+        }
+
+        $request->validate([
+            'result_txid'  => 'required|string',
+            'result_file_hash' => 'required|string'
+        ]);
+
+        $params = [
+            'txid' => $request->input('result_txid'),
+            'valid' => Transaction::VALID,
+            'certificate_hash' => $request->input('result_file_hash')
+        ];
+
+        $issuer = $this->isuuer->find($id);
+        $issuer->transaction()->create($params);
+
+        $url = '/issuer/' . $id;
+        $message = 'TxIDを登録しました。<br>';
+        $message .= '【Transaction ID】<br>' . $params['txid'];
+        return redirect($url)->with('my_status', $message);
+    }
+
+    public function storeInvalidIssue(Request $request)
     {
         $id = $request->input('_id');
         if (empty($id)) {
@@ -90,6 +107,9 @@ class IssuerController extends Controller
         $issuer = $this->isuuer->find($id);
         $issuer->transaction()->create($params);
 
-        return back()->withInput();
+        $url = '/issuer/' . $id;
+        $message = 'TxIDを無効リストに登録しました。<br>';
+        $message .= '【Transaction ID】<br>' . $params['txid'];
+        return redirect($url)->with('my_status', $message);
     }
 }

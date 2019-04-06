@@ -10,20 +10,20 @@
 		<article>
 			<h2>機関登録</h2>
 		</article>
-	@if ($errors->any())
-	<div class="errors">
-	<ul>
-		@foreach ($errors->all() as $error)
-		<li>{{ $error }}</li>
-		@endforeach
-	</ul>
-	</div>
-	@endif
-	@isset ($status)
-	<div class="complete">
-		<p>登録完了しました。</p>
-	</div>
-	@endif
+		@if ($errors->any())
+		<div class="errors">
+		<ul>
+			@foreach ($errors->all() as $error)
+			<li>{{ $error }}</li>
+			@endforeach
+		</ul>
+		</div>
+		@endif
+		@isset ($status)
+		<div class="complete">
+			<p>登録完了しました。</p>
+		</div>
+		@endif
 		<form action="/issuer/new" method="post">
 		{{ csrf_field() }}
 			<p><strong class="color1">■※は入力必須です。</strong><br>

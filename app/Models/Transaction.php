@@ -19,4 +19,14 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\Models\Issuer');
     }
+
+    public function scopeValid($query, $txId)
+    {
+        return $query->where('valid', true)->where('txid', $txId);
+    }
+
+    public function scopeInValid($query, $txId)
+    {
+        return $query->where('valid', false)->where('txid', $txId);
+    }
 }

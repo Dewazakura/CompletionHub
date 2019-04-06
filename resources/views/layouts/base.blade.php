@@ -8,7 +8,9 @@
     <meta name="keywords" content="">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ secure_asset('css/style.css') }}">
-    <script type="text/javascript" src="{{ secure_asset('js/verification.js') }}"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/issue_browserify.js') }}"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/verification_browserify.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body id="top">
