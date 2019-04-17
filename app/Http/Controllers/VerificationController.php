@@ -9,19 +9,19 @@ use App\Models\Transaction;
 
 class VerificationController extends Controller
 {
-    protected $isuuer;
+    protected $issuer;
 
     public function __construct()
     {
-        $this->isuuer = new Issuer();
+        $this->issuer = new Issuer();
         $this->messagesBag = new MessageBag();
     }
 
     public function index($organization_id)
     {
-        $isuuer = $this->isuuer->find($organization_id);
+        $issuer = $this->issuer->find($organization_id);
 
-        return view('verification/index', compact('isuuer'));
+        return view('verification/index', compact('issuer'));
     }
 
     public function verify(Request $request)

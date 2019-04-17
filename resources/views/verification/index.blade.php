@@ -12,9 +12,9 @@
 		</article>
 		<form action="/verification/verify" method="post" enctype="multipart/form-data">
 		{{ csrf_field() }}
-			<input type="hidden" name="id" value="{{ $isuuer->id }}">
+			<input type="hidden" name="id" value="{{ $issuer->id }}">
 			<p><strong class="color1">■内容を検証するには以下を入力してください。</strong>
-			<p>{{ $isuuer->name }}</P>
+			<p>{{ $issuer->name }}</P>
 			@if ($errors->any())
 			<div class="errors">
 			<ul>
@@ -40,7 +40,11 @@
 				</tr>
 				<tr>
 					<th>アドレス</th>
-					<td><textarea id="address" name="address" cols="30" rows="3" class="wl"></textarea></td>
+					<td><textarea id="address" name="address" rows="2" cols="60">
+					@foreach ($issuer->publicKeys as $pubkey)
+						{{ $pubkey->pub_key }}
+					@endforeach
+					</textarea></td>
 				</tr>
 			</table>
 			<p class="c">

@@ -15,6 +15,7 @@
 		<!--トップページ専用メニュー-->
 		<nav id="menubar-top">
 			<ul class="inner">
+				<li><a href="{{ route('login') }}"><span>Login</span>Dashboard</a></li>
 				<li><a href="/organization/issuer"><span>発行者</span>Issuer</a></li>
 				<li><a href="/organization/verifier"><span>検証者</span>Verifier</a></li>
 			</ul>

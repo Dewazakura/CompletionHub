@@ -7,6 +7,9 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 class AuthServiceProvider extends ServiceProvider
 {
+    const SYSTEM_ROLE = 1;
+    const ISSUER_ROLE = 2;
+
     /**
      * The policy mappings for the application.
      *
@@ -25,6 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // for developer role
+        Gate::define('system-only', function ($user) {
+            return ($user->role === self::SYSTEM_ROLE);
+        });
+
+        Gate::define('issuer-role', function ($user) {
+            return ($user->role > 0 && $user->role <= self::ISSUER_ROLE);
+        });
+
     }
 }
